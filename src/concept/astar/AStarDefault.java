@@ -9,16 +9,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class AStarDefault {
-    protected State goal;
-    protected Heuristic heuristic;
-    protected PriorityQueue<Stage> queue;
+public class AStarDefault<T extends State> {
+    protected T goal;
+    protected Heuristic<T> heuristic;
+    protected PriorityQueue<Stage<T>> queue;
 
     /**
      * @param goal is copied by reference !!
      * @param heuristic is copied by reference !!
      */
-    public AStarDefault(State goal, Heuristic heuristic) {
+    public AStarDefault(T goal, Heuristic<T> heuristic) {
         this.goal = goal;
         this.heuristic = heuristic;
 
@@ -28,7 +28,7 @@ public class AStarDefault {
                 ));
     }
 
-    public List<State> solve(State currentState) {
+    public List<T> solve(T currentState) {
         prepareForSolving(currentState);
         while(!shouldStop()) {
             step();
@@ -36,8 +36,8 @@ public class AStarDefault {
         return getAnswer();
     }
 
-    protected void prepareForSolving(State currentState) {
-        queue.add(new Stage(currentState));
+    protected void prepareForSolving(T currentState) {
+        queue.add(new Stage<>(currentState));
     }
 
     /**
@@ -52,17 +52,20 @@ public class AStarDefault {
     }
 
     protected void step() {
-        final Stage currentStage = queue.poll();
-        final State currentState = currentStage.getState();
+        final Stage<T> currentStage = queue.poll();
+        final State currentState;
+        if (currentStage == null) return;
+        currentState = currentStage.getState();
         for (State changedState : currentState) {
-            queue.add(new Stage(changedState, currentStage));
+            //noinspection unchecked
+            queue.add(new Stage<>((T)changedState, currentStage));
             if (changedState.equals(goal)) {
                 break;
             }
         }
     }
 
-    protected List<State> getAnswer() {
+    protected List<T> getAnswer() {
         if (queue.isEmpty()) {
             System.out.println("Something went wrong");
             return new LinkedList<>();

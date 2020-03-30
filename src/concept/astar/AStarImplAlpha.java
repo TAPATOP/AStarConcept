@@ -5,13 +5,13 @@ import concept.state.State;
 
 import java.util.List;
 
-public class AStarImplAlpha extends AStarDefault {
-   public AStarImplAlpha(State state, Heuristic heuristic) {
+public class AStarImplAlpha<T extends State> extends AStarDefault<T> {
+   public AStarImplAlpha(T state, Heuristic<T> heuristic) {
        super(state, heuristic);
    }
 
     @Override
-    public List<State> solve(State currentState) {
+    public List<T> solve(T currentState) {
         return null;
     }
 }

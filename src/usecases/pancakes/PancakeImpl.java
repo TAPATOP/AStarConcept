@@ -1,9 +1,6 @@
 package usecases.pancakes;
 
-import concept.state.State;
-
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class PancakeImpl extends PancakeAbstract {
     public PancakeImpl(PancakeAbstract original) {

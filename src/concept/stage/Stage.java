@@ -8,29 +8,29 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Stage {
+public class Stage<T extends State> {
     private final int g;
-    private final State state;
-    private final Stage previous;
+    private final T state;
+    private final Stage<T> previous;
 
-    public Stage(@NotNull State state) {
+    public Stage(@NotNull T state) {
         this.state = state;
         previous = null;
         g = 0;
     }
 
-    public Stage(@NotNull State state, @NotNull Stage previous) {
+    public Stage(@NotNull T state, @NotNull Stage<T> previous) {
         this.state = state;
         this.g = previous.g + 1;
         this.previous = previous;
     }
 
-    public List<State> getParentChain() {
-        List<State> list = new LinkedList<>();
+    public List<T> getParentChain() {
+        List<T> list = new LinkedList<>();
         return this.getParentChain(list);
     }
 
-    private List<State> getParentChain(List<State> list) {
+    private List<T> getParentChain(List<T> list) {
         list.add(state);
         if (previous == null) {
             return list;
@@ -39,7 +39,7 @@ public class Stage {
     }
 
     // TODO check is this can be fixed or if it is even needed
-    public boolean equalState(State other) {
+    public boolean equalState(T other) {
         return state.equals(other);
     }
 
@@ -47,7 +47,7 @@ public class Stage {
         return g;
     }
 
-    public State getState() {
+    public T getState() {
         return state;
     }
 
@@ -55,7 +55,7 @@ public class Stage {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Stage stage = (Stage) o;
+        Stage<?> stage = (Stage<?>) o;
         return g == stage.g &&
                 state.equals(stage.state);
     }
