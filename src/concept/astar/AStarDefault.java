@@ -53,8 +53,8 @@ public class AStarDefault<T extends State> {
 
     protected void step() {
         final Stage<T> currentStage = queue.poll();
-        final State currentState;
         if (currentStage == null) return;
+        final State currentState;
         currentState = currentStage.getState();
         for (State changedState : currentState) {
             //noinspection unchecked

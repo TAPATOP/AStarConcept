@@ -64,4 +64,11 @@ public class Stage<T extends State> {
     public int hashCode() {
         return Objects.hash(g, state);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(state.toString());
+        sb.append(g).append("\n");
+        return sb.toString();
+    }
 }

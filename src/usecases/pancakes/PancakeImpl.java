@@ -53,4 +53,9 @@ public class PancakeImpl extends PancakeAbstract {
     public String toString() {
         return Arrays.toString(pancakes);
     }
+
+    @Override
+    public void print() {
+        System.out.println(toString());
+    }
 }
