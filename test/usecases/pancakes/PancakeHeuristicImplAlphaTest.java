@@ -1,12 +1,10 @@
-package pancakes;
+package usecases.pancakes;
 
 import concept.heuristic.Heuristic;
 import org.junit.Test;
-import usecases.pancakes.PancakeAbstract;
-import usecases.pancakes.PancakeHeuristic;
 
 import static org.junit.Assert.*;
-import static pancakes.TestCases.*;
+import static usecases.pancakes.TestCases.*;
 
 public class PancakeHeuristicImplAlphaTest {
     private Heuristic<PancakeAbstract> pancakeHeuristic = new PancakeHeuristic();

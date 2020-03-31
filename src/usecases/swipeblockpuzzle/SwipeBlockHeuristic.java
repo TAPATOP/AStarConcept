@@ -1,4 +1,4 @@
-package usecases.blockswipepuzzle;
+package usecases.swipeblockpuzzle;
 
 import concept.heuristic.Heuristic;
 
@@ -12,14 +12,9 @@ public class SwipeBlockHeuristic implements Heuristic<SwipeBlock> {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int number = current.numberAt(i, j);
-                if (number == 0) {
-                    number = height * width;
-                }
 
                 Coordinates numberCoords = new Coordinates(j, i);
-
-                // TODO: make the below work with goal
-                Coordinates supposedPlace = new Coordinates((number - 1) % width, (number - 1) / width);
+                Coordinates supposedPlace = goal.locationOf(number);
 
                 sum += Coordinates.manhattanDistance(supposedPlace, numberCoords);
             }

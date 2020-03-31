@@ -1,20 +1,18 @@
-package pancakes;
+package usecases.pancakes;
 
 import concept.astar.AStarDefault;
-import concept.state.State;
 import org.junit.Test;
-import usecases.pancakes.PancakeHeuristic;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static pancakes.TestCases.*;
+import static usecases.pancakes.TestCases.*;
 
 public class PancakeSolverTest {
 
     PancakeHeuristic pc = new PancakeHeuristic();
-    AStarDefault pancakeSolver = new AStarDefault(goal, pc);
-    List<State> result;
+    AStarDefault<PancakeAbstract> pancakeSolver = new AStarDefault<>(goal, pc);
+    List<PancakeAbstract> result;
 
     @Test
     public void givenOneFlipMirroredSolvesInOneStep() {

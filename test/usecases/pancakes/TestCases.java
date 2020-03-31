@@ -1,7 +1,4 @@
-package pancakes;
-
-import usecases.pancakes.PancakeAbstract;
-import usecases.pancakes.PancakeImpl;
+package usecases.pancakes;
 
 public class TestCases {
    public static final int[] goalData = new int[]{1, 2, 3, 4, 5, 6};

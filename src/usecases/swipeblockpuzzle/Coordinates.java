@@ -1,4 +1,4 @@
-package usecases.blockswipepuzzle;
+package usecases.swipeblockpuzzle;
 
 /**
  * Container class

@@ -1,10 +1,9 @@
-package pancakes;
+package usecases.pancakes;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
-import static pancakes.TestCases.*;
+import static usecases.pancakes.TestCases.*;
 
 public class PancakePileTest {
     @Test

@@ -1,6 +1,8 @@
-package usecases.blockswipepuzzle;
+package usecases.swipeblockpuzzle;
 
 import concept.state.State;
+import usecases.swipeblockpuzzle.exceptions.InvalidSwipeException;
+import usecases.swipeblockpuzzle.exceptions.NumberNotFoundRuntimeException;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,10 +26,10 @@ public class SwipeBlock implements State {
 
     private Coordinates emptySquareCoordinates;
 
-    public SwipeBlock(int height, int width, int[][] board) {
+    public SwipeBlock(int[][] board) {
+        this.height = board.length;
+        this.width = board[0].length;
         this.board = new int[height][width];
-        this.height = height;
-        this.width = width;
 
         copyBoard(board);
     }
@@ -56,7 +58,7 @@ public class SwipeBlock implements State {
             }
         }
         board[height - 1][width - 1] = 0;
-        return new SwipeBlock(height, width, board);
+        return new SwipeBlock(board);
     }
 
     private void copyBoard(int[][] board) {
@@ -108,7 +110,7 @@ public class SwipeBlock implements State {
      * Returns a new swipeBlock
      */
     private SwipeBlock swipeBlock(Coordinates swipedCoords) {
-        SwipeBlock newState = new SwipeBlock(height, width, this.board);
+        SwipeBlock newState = new SwipeBlock(this.board);
         newState.board[emptySquareCoordinates.getY()][emptySquareCoordinates.getX()] =
                 newState.board[swipedCoords.getY()][swipedCoords.getX()];
         newState.board[swipedCoords.getY()][swipedCoords.getX()] = 0;
@@ -178,6 +180,17 @@ public class SwipeBlock implements State {
 
     public int numberAt(int i, int j) {
         return board[i][j];
+    }
+
+    public Coordinates locationOf(int number) {
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                if (board[i][j] == number) {
+                    return new Coordinates(j, i);
+                }
+            }
+        }
+        throw new NumberNotFoundRuntimeException();
     }
 
     @Override
