@@ -35,7 +35,7 @@ public class SwipeBlockHeuristicTest {
     public void givenMaximumMovesStateReturnsMoreThanFiveMovesState() {
         assertTrue(
                 heuristic.heuristic(eightSBFiveMoves, eightSBSolved) <
-                        heuristic.heuristic(eightSBMaximumMoves, eightSBSolved)
+                        heuristic.heuristic(eightSBMaximumMoves1, eightSBSolved)
         );
     }
 }
