@@ -2,6 +2,7 @@ package concept;
 
 import concept.implementation.AStarImplAlpha;
 import concept.heuristic.Heuristic;
+import concept.stage.Stage;
 import concept.state.State;
 import usecases.pancakes.PancakeAbstract;
 import usecases.pancakes.PancakeHeuristic;
@@ -32,7 +33,7 @@ public class MainClass {
         Heuristic<SwipeBlock> sbh = new SwipeBlockHeuristic();
 
         AStarImplAlpha<SwipeBlock> aStarDefault = new AStarImplAlpha<>(SwipeBlock.solvedBlock(3, 3), sbh);
-        List<SwipeBlock> list = aStarDefault.solve(sb);
+        List<Stage<SwipeBlock>> list = aStarDefault.solve(sb);
         list.forEach(System.out::println);
     }
 }

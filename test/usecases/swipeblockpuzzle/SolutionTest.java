@@ -9,32 +9,32 @@ public class SolutionTest {
     SwipeBlockPuzzleSolver solver = new SwipeBlockPuzzleSolver(eightSBSolved);
 
     @Test
-    public void givenGoalStateReturns1() {
+    public void givenEightSBGoalStateReturns1() {
         assertEquals(1, solver.solve(eightSBSolved).size());
     }
 
     @Test
-    public void given1MoveReturns2() {
+    public void givenEightSB1MoveReturns2() {
         assertEquals(2, solver.solve(eightSBOneMove).size());
     }
 
     @Test
-    public void given5MovesReturns6() {
+    public void givenEightSB5MovesReturns6() {
         assertEquals(6, solver.solve(eightSBFiveMoves).size());
     }
 
     @Test
-    public void given4MovesReturns5() {
+    public void givenEightSB4MovesReturns5() {
         assertEquals(5, solver.solve(eightSBPuzzle2).size());
     }
 
     @Test
-    public void givenMax1Returns32() {
+    public void givenEightSBMax1Returns32() {
         assertEquals(32, solver.solve(eightSBMaximumMoves2).size());
     }
 
     @Test
-    public void givenMax2Returns32() {
+    public void givenEightSBMax2Returns32() {
         assertEquals(32, solver.solve(eightSBMaximumMoves1).size());
     }
 }

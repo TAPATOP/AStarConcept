@@ -4,6 +4,7 @@ import concept.heuristic.Heuristic;
 import concept.implementation.AStarDefault;
 import concept.implementation.AStarImplAlpha;
 import concept.solver.AStarSolver;
+import concept.stage.Stage;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class PancakeSolver implements AStarSolver<PancakeAbstract> {
     }
 
     @Override
-    public List<PancakeAbstract> solve(PancakeAbstract currentState) {
+    public List<Stage<PancakeAbstract>> solve(PancakeAbstract currentState) {
         return aStar.solve(currentState);
     }
 }

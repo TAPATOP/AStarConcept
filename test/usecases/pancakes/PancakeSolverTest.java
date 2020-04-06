@@ -1,5 +1,6 @@
 package usecases.pancakes;
 
+import concept.stage.Stage;
 import org.junit.Test;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import static usecases.pancakes.TestCases.*;
 public class PancakeSolverTest {
 
     PancakeSolver pancakeSolver = new PancakeSolver(goal);
-    List<PancakeAbstract> result;
+    List<Stage<PancakeAbstract>> result;
 
     @Test
     public void givenOneFlipMirroredSolvesInOneStep() {

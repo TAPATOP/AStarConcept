@@ -1,6 +1,7 @@
 package concept.implementation;
 
 import concept.heuristic.Heuristic;
+import concept.solver.AStarSolver;
 import concept.stage.Stage;
 import concept.state.State;
 
@@ -9,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class AStarDefault<T extends State> {
+public class AStarDefault<T extends State> implements AStarSolver<T> {
     protected T goal;
     protected Heuristic<T> heuristic;
     protected PriorityQueue<Stage<T>> queue;
@@ -28,7 +29,8 @@ public class AStarDefault<T extends State> {
                 ));
     }
 
-    public List<T> solve(T currentState) {
+    @Override
+    public List<Stage<T>> solve(T currentState) {
         prepareForSolving(currentState);
         while(!shouldStop()) {
             step();
@@ -65,7 +67,7 @@ public class AStarDefault<T extends State> {
         }
     }
 
-    protected List<T> getAnswer() {
+    protected List<Stage<T>> getAnswer() {
         if (queue.isEmpty()) {
             System.out.println("Something went wrong");
             return new LinkedList<>();

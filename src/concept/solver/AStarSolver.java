@@ -1,5 +1,6 @@
 package concept.solver;
 
+import concept.stage.Stage;
 import concept.state.State;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface AStarSolver<T extends State> {
      * @param currentState The current state of the model
      * @return a list of steps required to solve the problem
      */
-    List<T> solve(T currentState);
+    List<Stage<T>> solve(T currentState);
 }

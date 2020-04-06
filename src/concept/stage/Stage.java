@@ -25,13 +25,13 @@ public class Stage<T extends State> {
         this.previous = previous;
     }
 
-    public List<T> getParentChain() {
-        List<T> list = new LinkedList<>();
+    public List<Stage<T>> getParentChain() {
+        List<Stage<T>> list = new LinkedList<>();
         return this.getParentChain(list);
     }
 
-    private List<T> getParentChain(List<T> list) {
-        list.add(state);
+    private List<Stage<T>> getParentChain(List<Stage<T>> list) {
+        list.add(this);
         if (previous == null) {
             return list;
         }
@@ -67,8 +67,6 @@ public class Stage<T extends State> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(state.toString());
-        sb.append(g).append("\n");
-        return sb.toString();
+        return state.toString() + " " + g + "\n";
     }
 }

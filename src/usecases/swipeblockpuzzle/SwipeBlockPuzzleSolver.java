@@ -4,6 +4,7 @@ import concept.heuristic.Heuristic;
 import concept.implementation.AStarDefault;
 import concept.implementation.AStarImplAlpha;
 import concept.solver.AStarSolver;
+import concept.stage.Stage;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class SwipeBlockPuzzleSolver implements AStarSolver<SwipeBlock> {
     }
 
     @Override
-    public List<SwipeBlock> solve(SwipeBlock currentState) {
+    public List<Stage<SwipeBlock>> solve(SwipeBlock currentState) {
         return aStar.solve(currentState);
     }
 }
