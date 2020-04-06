@@ -1,6 +1,5 @@
 package usecases.pancakes;
 
-import concept.astar.AStarDefault;
 import org.junit.Test;
 
 import java.util.List;
@@ -10,8 +9,7 @@ import static usecases.pancakes.TestCases.*;
 
 public class PancakeSolverTest {
 
-    PancakeHeuristic pc = new PancakeHeuristic();
-    AStarDefault<PancakeAbstract> pancakeSolver = new AStarDefault<>(goal, pc);
+    PancakeSolver pancakeSolver = new PancakeSolver(goal);
     List<PancakeAbstract> result;
 
     @Test

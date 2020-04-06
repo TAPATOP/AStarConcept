@@ -1,4 +1,4 @@
-package concept.astar;
+package concept.implementation;
 
 import concept.heuristic.Heuristic;
 import concept.stage.Stage;
@@ -10,8 +10,8 @@ import java.util.Set;
 public class AStarImplAlpha<T extends State> extends AStarDefault<T> {
     Set<T> visitedStates;
 
-   public AStarImplAlpha(T state, Heuristic<T> heuristic) {
-       super(state, heuristic);
+   public AStarImplAlpha(T goal, Heuristic<T> heuristic) {
+       super(goal, heuristic);
        visitedStates = new HashSet<>();
    }
 

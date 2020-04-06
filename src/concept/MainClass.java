@@ -1,6 +1,6 @@
 package concept;
 
-import concept.astar.AStarImplAlpha;
+import concept.implementation.AStarImplAlpha;
 import concept.heuristic.Heuristic;
 import concept.state.State;
 import usecases.pancakes.PancakeAbstract;

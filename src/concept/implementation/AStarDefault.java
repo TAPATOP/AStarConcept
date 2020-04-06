@@ -1,4 +1,4 @@
-package concept.astar;
+package concept.implementation;
 
 import concept.heuristic.Heuristic;
 import concept.stage.Stage;
