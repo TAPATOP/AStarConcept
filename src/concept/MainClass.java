@@ -1,27 +1,26 @@
 package concept;
 
-import concept.implementation.AStarImplAlpha;
-import concept.heuristic.Heuristic;
-import concept.stage.Stage;
-import concept.state.State;
 import usecases.pancakes.PancakeAbstract;
-import usecases.pancakes.PancakeHeuristic;
 import usecases.pancakes.PancakeImpl;
+import usecases.pancakes.PancakeSolver;
 import usecases.swipeblockpuzzle.SwipeBlock;
-import usecases.swipeblockpuzzle.SwipeBlockHeuristic;
+import usecases.swipeblockpuzzle.SwipeBlockPuzzleSolver;
+import usecases.swipeblockpuzzle.SwipeBlockStage;
 
 import java.util.List;
 
 /** TODO
-* - ensure the Stages are of the same type per A*
+ * - final where needed
+ * - comments
 */
 public class MainClass {
     public static void main(String[] args) {
         int[] data = {2, 3, 5, 6, 4, 1};
         int[] goalData = {1, 2, 3, 4, 5, 6};
-        State pancakes = new PancakeImpl(data);
-        State goalPancakes = new PancakeImpl(goalData);
-        Heuristic<PancakeAbstract> heuristic = new PancakeHeuristic();
+        PancakeAbstract pancakes = new PancakeImpl(data);
+        PancakeAbstract goalPancakes = new PancakeImpl(goalData);
+        PancakeSolver pancakeSolver = new PancakeSolver(goalPancakes);
+        pancakeSolver.solve(pancakes);
 
         int[][] board = {
                 {6, 4, 7},
@@ -30,10 +29,8 @@ public class MainClass {
         };
 
         SwipeBlock sb = new SwipeBlock(board);
-        Heuristic<SwipeBlock> sbh = new SwipeBlockHeuristic();
-
-        AStarImplAlpha<SwipeBlock> aStarDefault = new AStarImplAlpha<>(SwipeBlock.solvedBlock(3, 3), sbh);
-        List<Stage<SwipeBlock>> list = aStarDefault.solve(sb);
+        SwipeBlockPuzzleSolver SWSolver = new SwipeBlockPuzzleSolver(SwipeBlock.solvedBlock(3, 3));
+        List<SwipeBlockStage> list = SWSolver.solve(sb);
         list.forEach(System.out::println);
     }
 }

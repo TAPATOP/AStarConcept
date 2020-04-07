@@ -47,6 +47,18 @@ public class SwipeBlock implements State {
                 );
     }
 
+    /**
+     * Returns a new swipeBlock
+     */
+    private SwipeBlock swipeBlock(Coordinates swipedCoords) {
+        SwipeBlock newState = new SwipeBlock(this.board);
+        newState.board[emptySquareCoordinates.getY()][emptySquareCoordinates.getX()] =
+                newState.board[swipedCoords.getY()][swipedCoords.getX()];
+        newState.board[swipedCoords.getY()][swipedCoords.getX()] = 0;
+        newState.emptySquareCoordinates = new Coordinates(swipedCoords.getX(), swipedCoords.getY());
+        return newState;
+    }
+
     // generates a solved SwipeBlock
     public static SwipeBlock solvedBlock(int height, int width) {
         int[][] board = new int[height][width];
@@ -74,6 +86,7 @@ public class SwipeBlock implements State {
 
     public SwipeBlock move(String direction) throws InvalidSwipeException {
         Coordinates relativeCoords = calculateRelativeCoords(direction);
+        // TODO: Probably throw an exception here
         if(relativeCoords == null) {
             return null;
         }
@@ -104,18 +117,6 @@ public class SwipeBlock implements State {
         int x = coords.getX();
         int y = coords.getY();
         return !(y < 0 || y >= height || x < 0 || x >= width);
-    }
-
-    /**
-     * Returns a new swipeBlock
-     */
-    private SwipeBlock swipeBlock(Coordinates swipedCoords) {
-        SwipeBlock newState = new SwipeBlock(this.board);
-        newState.board[emptySquareCoordinates.getY()][emptySquareCoordinates.getX()] =
-                newState.board[swipedCoords.getY()][swipedCoords.getX()];
-        newState.board[swipedCoords.getY()][swipedCoords.getX()] = 0;
-        newState.emptySquareCoordinates = new Coordinates(swipedCoords.getX(), swipedCoords.getY());
-        return newState;
     }
 
     public void print() {

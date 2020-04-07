@@ -24,9 +24,10 @@ public class AStarImplAlpha<T extends State> extends AStarDefault<T> {
     @Override
     protected void step() {
         final Stage<T> currentStage = queue.poll();
+
         if (currentStage == null) return;
-        final State currentState;
-        currentState = currentStage.getState();
+
+        final State currentState = currentStage.getState();
         for (State changedState : currentState) {
             //noinspection unchecked
             T castChangedState = (T)changedState;
