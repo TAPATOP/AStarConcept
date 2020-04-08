@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Stage<T extends State> {
-    private final int g;
-    private final T state;
-    private final Stage<T> previous;
+    protected final int g;
+    protected final T state;
+    protected final Stage<T> previous;
 
     public Stage(@NotNull T state) {
         this.state = state;

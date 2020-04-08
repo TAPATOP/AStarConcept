@@ -1,19 +1,17 @@
 package usecases.swipeblockpuzzle;
 
 import concept.state.State;
+import jdk.nashorn.internal.ir.annotations.Immutable;
 import usecases.swipeblockpuzzle.exceptions.InvalidSwipeException;
 import usecases.swipeblockpuzzle.exceptions.NumberNotFoundRuntimeException;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class SwipeBlock implements State {
-    static private Set<String> possibleDirections;
+    static final private List<String> possibleDirections;
 
     static {
-        possibleDirections = new HashSet<>();
+        possibleDirections = new ArrayList<>();
         possibleDirections.add("up");
         possibleDirections.add("down");
         possibleDirections.add("left");
@@ -202,5 +200,9 @@ public class SwipeBlock implements State {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static List<String> getPossibleDirections() {
+        return new ArrayList<>(possibleDirections);
     }
 }

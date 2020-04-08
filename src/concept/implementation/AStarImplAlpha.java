@@ -7,8 +7,8 @@ import concept.state.State;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AStarImplAlpha<T extends State> extends AStarDefault<T> {
-    Set<T> visitedStates;
+public class AStarImplAlpha<T extends State, W extends Stage<T>> extends AStarDefault<T, W> {
+    protected Set<T> visitedStates;
 
    public AStarImplAlpha(T goal, Heuristic<T> heuristic) {
        super(goal, heuristic);
@@ -23,7 +23,7 @@ public class AStarImplAlpha<T extends State> extends AStarDefault<T> {
 
     @Override
     protected void step() {
-        final Stage<T> currentStage = queue.poll();
+        final W currentStage = queue.poll();
 
         if (currentStage == null) return;
 
@@ -35,7 +35,7 @@ public class AStarImplAlpha<T extends State> extends AStarDefault<T> {
                 continue;
             }
             visitedStates.add(castChangedState);
-            queue.add(new Stage<>(castChangedState, currentStage));
+            queue.add((W) new Stage<T>(castChangedState, currentStage));
             if (changedState.equals(goal)) {
                 break;
             }

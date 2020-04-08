@@ -7,5 +7,4 @@ public interface State extends Iterable<State> {
     Iterator<State> iterator();
     @Override
     String toString();
-    void print();
 }

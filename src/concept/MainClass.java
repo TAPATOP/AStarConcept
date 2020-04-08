@@ -20,7 +20,7 @@ public class MainClass {
         PancakeAbstract pancakes = new PancakeImpl(data);
         PancakeAbstract goalPancakes = new PancakeImpl(goalData);
         PancakeSolver pancakeSolver = new PancakeSolver(goalPancakes);
-        pancakeSolver.solve(pancakes);
+        pancakeSolver.solve(pancakes).forEach(System.out::println);
 
         int[][] board = {
                 {6, 4, 7},

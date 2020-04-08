@@ -8,19 +8,51 @@ import concept.solver.Solver;
 import java.util.List;
 
 public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
-    private AStarDefault<SwipeBlock> aStar;
+    private AStarDefault<SwipeBlock, SwipeBlockStage> aStar;
 
     @SuppressWarnings("FieldCanBeLocal")
     private Heuristic<SwipeBlock> heuristic;
 
     public SwipeBlockPuzzleSolver(SwipeBlock goal) {
         heuristic = new SwipeBlockHeuristic();
-        aStar = new AStarImplAlpha<>(goal, heuristic);
+        aStar = new SwipeBlockAStar(goal, heuristic);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<SwipeBlockStage> solve(SwipeBlock currentState) {
         return (List<SwipeBlockStage>) aStar.solve(currentState);
+    }
+
+    static class SwipeBlockAStar extends AStarImplAlpha<SwipeBlock, SwipeBlockStage> {
+
+        public SwipeBlockAStar(SwipeBlock goal, Heuristic<SwipeBlock> heuristic) {
+            super(goal, heuristic);
+        }
+
+        @Override
+        protected void prepareForSolving(SwipeBlock currentState) {
+            queue.add(new SwipeBlockStage(currentState));
+            visitedStates.add(currentState);
+        }
+
+        @Override
+        protected void step() {
+            final SwipeBlockStage currentStage = queue.poll();
+
+            if (currentStage == null) return;
+
+            SwipeBlockExpander swipeBlockExpander = new SwipeBlockExpander(currentStage, SwipeBlock.getPossibleDirections().iterator());
+            for (SwipeBlockStage changedStage : swipeBlockExpander) {
+                if (changedStage == null || visitedStates.contains(changedStage.getState())) {
+                    continue;
+                }
+                visitedStates.add(changedStage.getState());
+                queue.add(changedStage);
+                if (changedStage.getState().equals(goal)) {
+                    break;
+                }
+            }
+        }
     }
 }

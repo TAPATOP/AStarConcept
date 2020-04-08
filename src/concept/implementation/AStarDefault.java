@@ -10,10 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class AStarDefault<T extends State> implements Solver<T> {
+public class AStarDefault<T extends State, W extends Stage<T>> implements Solver<T> {
     protected T goal;
     protected Heuristic<T> heuristic;
-    protected PriorityQueue<Stage<T>> queue;
+    protected PriorityQueue<W> queue;
 
     /**
      * @param goal is copied by reference !!
@@ -39,7 +39,7 @@ public class AStarDefault<T extends State> implements Solver<T> {
     }
 
     protected void prepareForSolving(T currentState) {
-        queue.add(new Stage<>(currentState));
+        queue.add((W) new Stage<T>(currentState));
     }
 
     /**
@@ -61,7 +61,7 @@ public class AStarDefault<T extends State> implements Solver<T> {
         final State currentState = currentStage.getState();
         for (State changedState : currentState) {
             //noinspection unchecked
-            queue.add(new Stage<>((T)changedState, currentStage));
+            queue.add((W) new Stage<T>((T)changedState, currentStage));
             if (changedState.equals(goal)) {
                 break;
             }
