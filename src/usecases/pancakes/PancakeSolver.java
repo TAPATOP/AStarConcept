@@ -7,6 +7,7 @@ import concept.solver.Solver;
 import concept.stage.Stage;
 
 import java.util.List;
+import java.util.Stack;
 
 public class PancakeSolver implements Solver<PancakeAbstract> {
     private AStarDefault<PancakeAbstract, Stage<PancakeAbstract>> aStar;
@@ -21,7 +22,7 @@ public class PancakeSolver implements Solver<PancakeAbstract> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Stage<PancakeAbstract>> solve(PancakeAbstract currentState) {
-        return (List<Stage<PancakeAbstract>>) aStar.solve(currentState);
+    public Stack<Stage<PancakeAbstract>> solve(PancakeAbstract currentState) {
+        return (Stack<Stage<PancakeAbstract>>) aStar.solve(currentState);
     }
 }

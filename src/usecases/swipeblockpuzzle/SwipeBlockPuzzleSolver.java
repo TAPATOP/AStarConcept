@@ -6,6 +6,7 @@ import concept.implementation.AStarImplAlpha;
 import concept.solver.Solver;
 
 import java.util.List;
+import java.util.Stack;
 
 public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
     private AStarDefault<SwipeBlock, SwipeBlockStage> aStar;
@@ -20,8 +21,8 @@ public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<SwipeBlockStage> solve(SwipeBlock currentState) {
-        return (List<SwipeBlockStage>) aStar.solve(currentState);
+    public Stack<SwipeBlockStage> solve(SwipeBlock currentState) {
+        return (Stack<SwipeBlockStage>) aStar.solve(currentState);
     }
 
     static class SwipeBlockAStar extends AStarImplAlpha<SwipeBlock, SwipeBlockStage> {

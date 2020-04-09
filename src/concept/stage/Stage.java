@@ -7,6 +7,7 @@ import com.sun.istack.internal.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Stack;
 
 public class Stage<T extends State> {
     protected final int g;
@@ -25,17 +26,17 @@ public class Stage<T extends State> {
         this.previous = previous;
     }
 
-    public List<Stage<T>> getParentChain() {
-        List<Stage<T>> list = new LinkedList<>();
-        return this.getParentChain(list);
+    public Stack<Stage<T>> getParentChain() {
+        Stack<Stage<T>> parentChain = new Stack<>();
+        return this.getParentChain(parentChain);
     }
 
-    private List<Stage<T>> getParentChain(List<Stage<T>> list) {
-        list.add(this);
+    private Stack<Stage<T>> getParentChain(Stack<Stage<T>> parentChain) {
+        parentChain.push(this);
         if (previous == null) {
-            return list;
+            return parentChain;
         }
-        return previous.getParentChain(list);
+        return previous.getParentChain(parentChain);
     }
 
     // TODO check is this can be fixed or if it is even needed

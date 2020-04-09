@@ -1,5 +1,6 @@
 package concept;
 
+import concept.stage.Stage;
 import usecases.pancakes.PancakeAbstract;
 import usecases.pancakes.PancakeImpl;
 import usecases.pancakes.PancakeSolver;
@@ -7,7 +8,10 @@ import usecases.swipeblockpuzzle.SwipeBlock;
 import usecases.swipeblockpuzzle.SwipeBlockPuzzleSolver;
 import usecases.swipeblockpuzzle.SwipeBlockStage;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Stack;
 
 /** TODO
  * - final where needed
@@ -20,7 +24,8 @@ public class MainClass {
         PancakeAbstract pancakes = new PancakeImpl(data);
         PancakeAbstract goalPancakes = new PancakeImpl(goalData);
         PancakeSolver pancakeSolver = new PancakeSolver(goalPancakes);
-        pancakeSolver.solve(pancakes).forEach(System.out::println);
+        Stack<Stage<PancakeAbstract>> result = pancakeSolver.solve(pancakes);
+        result.stream().sorted(Comparator.comparingInt(Stage::getG)).forEach(System.out::println);
 
         int[][] board = {
                 {6, 4, 7},
@@ -30,7 +35,11 @@ public class MainClass {
 
         SwipeBlock sb = new SwipeBlock(board);
         SwipeBlockPuzzleSolver SWSolver = new SwipeBlockPuzzleSolver(SwipeBlock.solvedBlock(3, 3));
-        List<SwipeBlockStage> list = SWSolver.solve(sb);
-        list.forEach(System.out::println);
+        Stack<SwipeBlockStage> parentChain = SWSolver.solve(sb);
+
+//        length = parentChain.size();
+//        for(int i = 0; i < length; i++) {
+//            System.out.println(parentChain.pop());
+//        }
     }
 }

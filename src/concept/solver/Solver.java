@@ -3,7 +3,7 @@ package concept.solver;
 import concept.stage.Stage;
 import concept.state.State;
 
-import java.util.List;
+import java.util.Stack;
 
 /**
  * Should probably be replaced by or complimented with a Factory
@@ -17,5 +17,5 @@ public interface Solver<T extends State> {
      * @param currentState The current state of the model
      * @return a list of steps required to solve the problem
      */
-    List<? extends Stage<T>> solve(T currentState);
+    Stack<? extends Stage<T>> solve(T currentState);
 }

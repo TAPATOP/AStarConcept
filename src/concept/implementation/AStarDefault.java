@@ -5,10 +5,7 @@ import concept.solver.Solver;
 import concept.stage.Stage;
 import concept.state.State;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AStarDefault<T extends State, W extends Stage<T>> implements Solver<T> {
     protected T goal;
@@ -30,7 +27,7 @@ public class AStarDefault<T extends State, W extends Stage<T>> implements Solver
     }
 
     @Override
-    public List<? extends Stage<T>> solve(T currentState) {
+    public Stack<? extends Stage<T>> solve(T currentState) {
         prepareForSolving(currentState);
         while(!shouldStop()) {
             step();
@@ -68,10 +65,10 @@ public class AStarDefault<T extends State, W extends Stage<T>> implements Solver
         }
     }
 
-    protected List<Stage<T>> getAnswer() {
+    protected Stack<Stage<T>> getAnswer() {
         if (queue.isEmpty()) {
             System.out.println("Something went wrong");
-            return new LinkedList<>();
+            return new Stack<>();
         }
         return queue.peek().getParentChain();
     }
