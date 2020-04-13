@@ -7,7 +7,7 @@ import usecases.swipeblockpuzzle.exceptions.NumberNotFoundRuntimeException;
 
 import java.util.*;
 
-public class SwipeBlock implements State {
+public class SwipeBlock implements State<String> {
     static final private List<String> possibleDirections;
 
     static {
@@ -143,9 +143,9 @@ public class SwipeBlock implements State {
     }
 
     @Override
-    public Iterator<State> iterator() {
+    public Iterator<State<String>> iterator() {
 
-        return new Iterator<State>() {
+        return new Iterator<State<String>>() {
             Set<Coordinates> validCoordinates = new HashSet<>();
             {
                 for(String direction : possibleDirections) {

@@ -2,9 +2,14 @@ package concept.state;
 
 import java.util.Iterator;
 
-public interface State extends Iterable<State> {
+public interface State<ChangeArgType> extends Iterable<State<ChangeArgType>> {
     @Override
-    Iterator<State> iterator();
+    Iterator<State<ChangeArgType>> iterator();
+
+//    State<ChangeArgType> change(ChangeArgType command);
+
+//    boolean canChange(ChangeArgType command);
+
     @Override
     String toString();
 }

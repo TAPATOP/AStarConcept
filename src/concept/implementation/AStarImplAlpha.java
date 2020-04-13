@@ -7,35 +7,39 @@ import concept.state.State;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AStarImplAlpha<T extends State, W extends Stage<T>> extends AStarDefault<T, W> {
-    protected Set<T> visitedStates;
+public class AStarImplAlpha<
+        StateType extends State<ChangeArgType>,
+        StageType extends Stage<StateType>,
+        ChangeArgType>
+        extends AStarDefault<StateType, StageType, ChangeArgType> {
+    protected Set<StateType> visitedStates;
 
-   public AStarImplAlpha(T goal, Heuristic<T> heuristic) {
+   public AStarImplAlpha(StateType goal, Heuristic<StateType> heuristic) {
        super(goal, heuristic);
        visitedStates = new HashSet<>();
    }
 
     @Override
-    protected void prepareForSolving(T currentState) {
+    protected void prepareForSolving(StateType currentState) {
         super.prepareForSolving(currentState);
         visitedStates.add(currentState);
     }
 
     @Override
     protected void step() {
-        final W currentStage = queue.poll();
+        final StageType currentStage = queue.poll();
 
         if (currentStage == null) return;
 
-        final State currentState = currentStage.getState();
-        for (State changedState : currentState) {
+        final State<ChangeArgType> currentState = currentStage.getState();
+        for (State<ChangeArgType> changedState : currentState) {
             //noinspection unchecked
-            T castChangedState = (T)changedState;
+            StateType castChangedState = (StateType)changedState;
             if (visitedStates.contains(castChangedState)) {
                 continue;
             }
             visitedStates.add(castChangedState);
-            queue.add((W) new Stage<T>(castChangedState, currentStage));
+            queue.add((StageType) new Stage<>(castChangedState, currentStage));
             if (changedState.equals(goal)) {
                 break;
             }

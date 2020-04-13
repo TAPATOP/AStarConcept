@@ -6,7 +6,7 @@ import concept.state.State;
 import java.util.Arrays;
 import java.util.Iterator;
 
-abstract public class PancakeAbstract implements State {
+abstract public class PancakeAbstract implements State<Integer> {
     protected int[] pancakes;
 
     public PancakeAbstract(@NotNull int[] pancakes) {
@@ -15,8 +15,8 @@ abstract public class PancakeAbstract implements State {
 
     // TODO: Use inner class instead of local
     @Override
-    public Iterator<State> iterator() {
-        return new Iterator<State>() {
+    public Iterator<State<Integer>> iterator() {
+        return new Iterator<State<Integer>>() {
             private int currentIndex = 1;
 
             @Override
