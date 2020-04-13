@@ -6,17 +6,30 @@ import concept.state.State;
 import java.util.Arrays;
 import java.util.Iterator;
 
-abstract public class PancakeAbstract implements State {
+abstract public class PancakeAbstract implements State<Integer> {
     protected int[] pancakes;
 
     public PancakeAbstract(@NotNull int[] pancakes) {
         this.pancakes = Arrays.copyOf(pancakes, pancakes.length);
     }
 
-    // TODO: Use inner class instead of local
+    public abstract PancakeAbstract flip(int index);
+    public abstract int pancakeAt(int index);
+    public abstract int findProperPlace(int pancake); // move elsewhere
+
     @Override
-    public Iterator<State> iterator() {
-        return new Iterator<State>() {
+    public State<Integer> change(Integer index) {
+        return flip(index);
+    }
+
+    @Override
+    public boolean canChange(Integer index) {
+        return index >= 0 && index < size();
+    }
+
+    @Override
+    public Iterator<State<Integer>> iterator() {
+        return new Iterator<State<Integer>>() {
             private int currentIndex = 1;
 
             @Override
@@ -31,10 +44,9 @@ abstract public class PancakeAbstract implements State {
         };
     }
 
-    public abstract PancakeAbstract flip(int index);
-    public abstract int size();
-    public abstract int pancakeAt(int index);
-    public abstract int findProperPlace(int pancake); // move elsewhere
+    public int size() {
+        return pancakes.length;
+    }
 
     @Override
     public boolean equals(Object o) {

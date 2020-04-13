@@ -1,6 +1,6 @@
 package usecases.swipeblockpuzzle;
 
-import concept.expander.Expander;
+import concept.strategies.expander.Expander;
 import usecases.swipeblockpuzzle.exceptions.InvalidSwipeException;
 
 import java.util.Iterator;

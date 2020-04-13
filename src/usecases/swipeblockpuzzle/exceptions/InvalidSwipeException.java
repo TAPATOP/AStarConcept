@@ -1,4 +1,6 @@
 package usecases.swipeblockpuzzle.exceptions;
 
-public class InvalidSwipeException extends Exception {
+import concept.exceptions.InvalidChangeException;
+
+public class InvalidSwipeException extends InvalidChangeException {
 }

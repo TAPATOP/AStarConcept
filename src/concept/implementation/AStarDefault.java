@@ -7,27 +7,31 @@ import concept.state.State;
 
 import java.util.*;
 
-public class AStarDefault<T extends State, W extends Stage<T>> implements Solver<T> {
-    protected T goal;
-    protected Heuristic<T> heuristic;
-    protected PriorityQueue<W> queue;
+public class AStarDefault<
+        StateType extends State<ChangeArgType>,
+        StageType extends Stage<StateType>,
+        ChangeArgType>
+        implements Solver<StateType> {
+    protected StateType goal;
+    protected Heuristic<StateType> heuristic;
+    protected PriorityQueue<StageType> queue;
 
     /**
      * @param goal is copied by reference !!
      * @param heuristic is copied by reference !!
      */
-    public AStarDefault(T goal, Heuristic<T> heuristic) {
+    public AStarDefault(StateType goal, Heuristic<StateType> heuristic) {
         this.goal = goal;
         this.heuristic = heuristic;
 
-        // should find a way to specify the queue and make sure it's valid
+        // TODO: should find a way to specify the queue and make sure it's valid
         this.queue = new PriorityQueue<>(Comparator.comparingInt(
                         stage -> stage.getG() + this.heuristic.heuristic(stage.getState(), goal)
                 ));
     }
 
     @Override
-    public Stack<? extends Stage<T>> solve(T currentState) {
+    public Stack<? extends Stage<StateType>> solve(StateType currentState) {
         prepareForSolving(currentState);
         while(!shouldStop()) {
             step();
@@ -35,8 +39,9 @@ public class AStarDefault<T extends State, W extends Stage<T>> implements Solver
         return getAnswer();
     }
 
-    protected void prepareForSolving(T currentState) {
-        queue.add((W) new Stage<T>(currentState));
+    protected void prepareForSolving(StateType currentState) {
+        // TODO: Look into this casting
+        queue.add((StageType) new Stage<>(currentState));
     }
 
     /**
@@ -51,21 +56,21 @@ public class AStarDefault<T extends State, W extends Stage<T>> implements Solver
     }
 
     protected void step() {
-        final Stage<T> currentStage = queue.poll();
+        final Stage<StateType> currentStage = queue.poll();
 
         if (currentStage == null) return;
 
-        final State currentState = currentStage.getState();
-        for (State changedState : currentState) {
+        final State<ChangeArgType> currentState = currentStage.getState();
+        for (State<ChangeArgType> changedState : currentState) {
             //noinspection unchecked
-            queue.add((W) new Stage<T>((T)changedState, currentStage));
+            queue.add((StageType) new Stage<StateType>((StateType)changedState, currentStage));
             if (changedState.equals(goal)) {
                 break;
             }
         }
     }
 
-    protected Stack<Stage<T>> getAnswer() {
+    protected Stack<Stage<StateType>> getAnswer() {
         if (queue.isEmpty()) {
             System.out.println("Something went wrong");
             return new Stack<>();

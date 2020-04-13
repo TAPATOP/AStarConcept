@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class PancakeSolver implements Solver<PancakeAbstract> {
-    private AStarDefault<PancakeAbstract, Stage<PancakeAbstract>> aStar;
+    private AStarDefault<PancakeAbstract, Stage<PancakeAbstract>, Integer> aStar;
 
     @SuppressWarnings("FieldCanBeLocal")
     private Heuristic<PancakeAbstract> heuristic;

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
-    private AStarDefault<SwipeBlock, SwipeBlockStage> aStar;
+    private AStarDefault<SwipeBlock, SwipeBlockStage, String> aStar;
 
     @SuppressWarnings("FieldCanBeLocal")
     private Heuristic<SwipeBlock> heuristic;
@@ -25,7 +25,7 @@ public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
         return (Stack<SwipeBlockStage>) aStar.solve(currentState);
     }
 
-    static class SwipeBlockAStar extends AStarImplAlpha<SwipeBlock, SwipeBlockStage> {
+    static class SwipeBlockAStar extends AStarImplAlpha<SwipeBlock, SwipeBlockStage, String> {
 
         public SwipeBlockAStar(SwipeBlock goal, Heuristic<SwipeBlock> heuristic) {
             super(goal, heuristic);

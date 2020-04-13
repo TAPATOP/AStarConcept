@@ -7,7 +7,7 @@ import usecases.swipeblockpuzzle.exceptions.NumberNotFoundRuntimeException;
 
 import java.util.*;
 
-public class SwipeBlock implements State {
+public class SwipeBlock implements State<String> {
     static final private List<String> possibleDirections;
 
     static {
@@ -46,7 +46,8 @@ public class SwipeBlock implements State {
     }
 
     /**
-     * Returns a new swipeBlock
+     * Returns a new swipeBlock that is created by swiping the current one
+     * using the Coordinates input
      */
     private SwipeBlock swipeBlock(Coordinates swipedCoords) {
         SwipeBlock newState = new SwipeBlock(this.board);
@@ -55,20 +56,6 @@ public class SwipeBlock implements State {
         newState.board[swipedCoords.getY()][swipedCoords.getX()] = 0;
         newState.emptySquareCoordinates = new Coordinates(swipedCoords.getX(), swipedCoords.getY());
         return newState;
-    }
-
-    // generates a solved SwipeBlock
-    public static SwipeBlock solvedBlock(int height, int width) {
-        int[][] board = new int[height][width];
-
-        int counter = 1;
-        for(int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++){
-                board[i][j] = counter++;
-            }
-        }
-        board[height - 1][width - 1] = 0;
-        return new SwipeBlock(board);
     }
 
     private void copyBoard(int[][] board) {
@@ -83,17 +70,11 @@ public class SwipeBlock implements State {
     }
 
     public SwipeBlock move(String direction) throws InvalidSwipeException {
-        Coordinates relativeCoords = calculateRelativeCoords(direction);
-        // TODO: Probably throw an exception here
-        if(relativeCoords == null) {
-            return null;
-        }
-
-        Coordinates swipedCoords = newCoordinates(relativeCoords);
-
-        if(!coordsAreValid(swipedCoords)) {
+        if (!canChange(direction)) {
             throw new InvalidSwipeException();
         }
+        Coordinates swipedCoords = newCoordinates(calculateRelativeCoords(direction));
+
         return swipeBlock(swipedCoords);
     }
 
@@ -117,56 +98,22 @@ public class SwipeBlock implements State {
         return !(y < 0 || y >= height || x < 0 || x >= width);
     }
 
-    public void print() {
-        for(int[] line : board) {
-            for(int number: line) {
-                System.out.format("%3d", number);
-            }
-            System.out.println();
+    @Override
+    public State<String> change(String direction) throws InvalidSwipeException {
+        return move(direction);
+    }
+
+    @Override
+    public boolean canChange(String direction) {
+        Coordinates relativeCoords = calculateRelativeCoords(direction);
+
+        if(relativeCoords == null) {
+            return false;
         }
-    }
 
-    // System functions
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates swipedCoords = newCoordinates(relativeCoords);
 
-        SwipeBlock gameState = (SwipeBlock) o;
-
-        return Arrays.deepEquals(board, gameState.board);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.deepHashCode(board);
-    }
-
-    @Override
-    public Iterator<State> iterator() {
-
-        return new Iterator<State>() {
-            Set<Coordinates> validCoordinates = new HashSet<>();
-            {
-                for(String direction : possibleDirections) {
-                    Coordinates newCoord = newCoordinates(calculateRelativeCoords(direction));
-                    if (coordsAreValid(newCoord)) {
-                        validCoordinates.add(newCoord);
-                    }
-                }
-            }
-            Iterator<Coordinates> validCoordIterator = validCoordinates.iterator();
-
-            @Override
-            public boolean hasNext() {
-                return validCoordIterator.hasNext();
-            }
-
-            @Override
-            public State next() {
-                return swipeBlock(validCoordIterator.next());
-            }
-        };
+        return coordsAreValid(swipedCoords);
     }
 
     public int getHeight() {
@@ -193,6 +140,48 @@ public class SwipeBlock implements State {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SwipeBlock gameState = (SwipeBlock) o;
+
+        return Arrays.deepEquals(board, gameState.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(board);
+    }
+
+    @Override
+    public Iterator<State<String>> iterator() {
+
+        return new Iterator<State<String>>() {
+            Set<Coordinates> validCoordinates = new HashSet<>();
+            {
+                for(String direction : possibleDirections) {
+                    Coordinates newCoord = newCoordinates(calculateRelativeCoords(direction));
+                    if (coordsAreValid(newCoord)) {
+                        validCoordinates.add(newCoord);
+                    }
+                }
+            }
+            Iterator<Coordinates> validCoordIterator = validCoordinates.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return validCoordIterator.hasNext();
+            }
+
+            @Override
+            public State<String> next() {
+                return swipeBlock(validCoordIterator.next());
+            }
+        };
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(int[] row : board) {
@@ -204,5 +193,19 @@ public class SwipeBlock implements State {
 
     public static List<String> getPossibleDirections() {
         return new ArrayList<>(possibleDirections);
+    }
+
+    // generates a solved SwipeBlock
+    public static SwipeBlock solvedBlock(int height, int width) {
+        int[][] board = new int[height][width];
+
+        int counter = 1;
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++){
+                board[i][j] = counter++;
+            }
+        }
+        board[height - 1][width - 1] = 0;
+        return new SwipeBlock(board);
     }
 }
