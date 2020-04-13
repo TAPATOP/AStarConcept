@@ -11,10 +11,6 @@ public class PancakeImpl extends PancakeAbstract {
         super(pancakes);
     }
 
-    private int bestFlippingId() {
-        return 0;
-    }
-
     @Override
     public PancakeAbstract flip(int index) {
         int[] newPancakes = Arrays.copyOf(pancakes, pancakes.length);
@@ -32,11 +28,6 @@ public class PancakeImpl extends PancakeAbstract {
         int temp = array[index1];
         array[index1] = array[index2];
         array[index2] = temp;
-    }
-
-    @Override
-    public int size() {
-        return pancakes.length;
     }
 
     @Override

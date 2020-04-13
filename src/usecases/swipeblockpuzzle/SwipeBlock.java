@@ -46,7 +46,8 @@ public class SwipeBlock implements State<String> {
     }
 
     /**
-     * Returns a new swipeBlock
+     * Returns a new swipeBlock that is created by swiping the current one
+     * using the Coordinates input
      */
     private SwipeBlock swipeBlock(Coordinates swipedCoords) {
         SwipeBlock newState = new SwipeBlock(this.board);
@@ -55,20 +56,6 @@ public class SwipeBlock implements State<String> {
         newState.board[swipedCoords.getY()][swipedCoords.getX()] = 0;
         newState.emptySquareCoordinates = new Coordinates(swipedCoords.getX(), swipedCoords.getY());
         return newState;
-    }
-
-    // generates a solved SwipeBlock
-    public static SwipeBlock solvedBlock(int height, int width) {
-        int[][] board = new int[height][width];
-
-        int counter = 1;
-        for(int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++){
-                board[i][j] = counter++;
-            }
-        }
-        board[height - 1][width - 1] = 0;
-        return new SwipeBlock(board);
     }
 
     private void copyBoard(int[][] board) {
@@ -83,17 +70,11 @@ public class SwipeBlock implements State<String> {
     }
 
     public SwipeBlock move(String direction) throws InvalidSwipeException {
-        Coordinates relativeCoords = calculateRelativeCoords(direction);
-        // TODO: Probably throw an exception here
-        if(relativeCoords == null) {
-            return null;
-        }
-
-        Coordinates swipedCoords = newCoordinates(relativeCoords);
-
-        if(!coordsAreValid(swipedCoords)) {
+        if (!canChange(direction)) {
             throw new InvalidSwipeException();
         }
+        Coordinates swipedCoords = newCoordinates(calculateRelativeCoords(direction));
+
         return swipeBlock(swipedCoords);
     }
 
@@ -117,16 +98,47 @@ public class SwipeBlock implements State<String> {
         return !(y < 0 || y >= height || x < 0 || x >= width);
     }
 
-    public void print() {
-        for(int[] line : board) {
-            for(int number: line) {
-                System.out.format("%3d", number);
-            }
-            System.out.println();
-        }
+    @Override
+    public State<String> change(String direction) throws InvalidSwipeException {
+        return move(direction);
     }
 
-    // System functions
+    @Override
+    public boolean canChange(String direction) {
+        Coordinates relativeCoords = calculateRelativeCoords(direction);
+
+        if(relativeCoords == null) {
+            return false;
+        }
+
+        Coordinates swipedCoords = newCoordinates(relativeCoords);
+
+        return coordsAreValid(swipedCoords);
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int numberAt(int i, int j) {
+        return board[i][j];
+    }
+
+    public Coordinates locationOf(int number) {
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                if (board[i][j] == number) {
+                    return new Coordinates(j, i);
+                }
+            }
+        }
+        throw new NumberNotFoundRuntimeException();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -163,33 +175,10 @@ public class SwipeBlock implements State<String> {
             }
 
             @Override
-            public State next() {
+            public State<String> next() {
                 return swipeBlock(validCoordIterator.next());
             }
         };
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int numberAt(int i, int j) {
-        return board[i][j];
-    }
-
-    public Coordinates locationOf(int number) {
-        for(int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++) {
-                if (board[i][j] == number) {
-                    return new Coordinates(j, i);
-                }
-            }
-        }
-        throw new NumberNotFoundRuntimeException();
     }
 
     @Override
@@ -204,5 +193,19 @@ public class SwipeBlock implements State<String> {
 
     public static List<String> getPossibleDirections() {
         return new ArrayList<>(possibleDirections);
+    }
+
+    // generates a solved SwipeBlock
+    public static SwipeBlock solvedBlock(int height, int width) {
+        int[][] board = new int[height][width];
+
+        int counter = 1;
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++){
+                board[i][j] = counter++;
+            }
+        }
+        board[height - 1][width - 1] = 0;
+        return new SwipeBlock(board);
     }
 }

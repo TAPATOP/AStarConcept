@@ -13,7 +13,20 @@ abstract public class PancakeAbstract implements State<Integer> {
         this.pancakes = Arrays.copyOf(pancakes, pancakes.length);
     }
 
-    // TODO: Use inner class instead of local
+    public abstract PancakeAbstract flip(int index);
+    public abstract int pancakeAt(int index);
+    public abstract int findProperPlace(int pancake); // move elsewhere
+
+    @Override
+    public State<Integer> change(Integer index) {
+        return flip(index);
+    }
+
+    @Override
+    public boolean canChange(Integer index) {
+        return index >= 0 && index < size();
+    }
+
     @Override
     public Iterator<State<Integer>> iterator() {
         return new Iterator<State<Integer>>() {
@@ -31,10 +44,9 @@ abstract public class PancakeAbstract implements State<Integer> {
         };
     }
 
-    public abstract PancakeAbstract flip(int index);
-    public abstract int size();
-    public abstract int pancakeAt(int index);
-    public abstract int findProperPlace(int pancake); // move elsewhere
+    public int size() {
+        return pancakes.length;
+    }
 
     @Override
     public boolean equals(Object o) {
