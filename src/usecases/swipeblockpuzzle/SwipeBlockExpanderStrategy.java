@@ -1,15 +1,15 @@
 package usecases.swipeblockpuzzle;
 
-import concept.strategies.expander.Expander;
+import concept.strategies.expander.ExpanderStrategy;
 import usecases.swipeblockpuzzle.exceptions.InvalidSwipeException;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class SwipeBlockExpander
-        extends Expander<SwipeBlock, SwipeBlockStage, String> {
+public class SwipeBlockExpanderStrategy
+        extends ExpanderStrategy<SwipeBlock, SwipeBlockStage, String> {
 
-    SwipeBlockExpander(List<String> possibleDirections) {
+    SwipeBlockExpanderStrategy(List<String> possibleDirections) {
         super(possibleDirections);
     }
 

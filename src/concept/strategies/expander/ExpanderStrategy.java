@@ -8,7 +8,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Expander<
+/**
+ * Currently, proper use of this class needs to have its "setStage" method invoked prior
+ * iterating over it. Not sure how to enforce this atm.
+ * @param <StateType>
+ * @param <StageType>
+ * @param <ChangeArgType>
+ */
+public class ExpanderStrategy<
         StateType extends State<ChangeArgType>,
         StageType extends Stage<StateType>,
         ChangeArgType>
@@ -18,7 +25,7 @@ public class Expander<
 
     protected List<ChangeArgType> allPossibleChanges;
 
-    public Expander(List<ChangeArgType> allPossibleChanges) {
+    public ExpanderStrategy(List<ChangeArgType> allPossibleChanges) {
         this.allPossibleChanges = allPossibleChanges;
     }
 

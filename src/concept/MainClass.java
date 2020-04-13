@@ -27,19 +27,24 @@ public class MainClass {
         Stack<Stage<PancakeAbstract>> result = pancakeSolver.solve(pancakes);
         result.stream().sorted(Comparator.comparingInt(Stage::getG)).forEach(System.out::println);
 
+//        int[][] board = {
+//                {6, 4, 7},
+//                {8, 5, 0},
+//                {3, 2, 1}
+//        };
         int[][] board = {
-                {6, 4, 7},
-                {8, 5, 0},
-                {3, 2, 1}
+                {1, 2, 3},
+                {7, 4, 6},
+                {0, 5, 8}
         };
 
         SwipeBlock sb = new SwipeBlock(board);
         SwipeBlockPuzzleSolver SWSolver = new SwipeBlockPuzzleSolver(SwipeBlock.solvedBlock(3, 3));
         Stack<SwipeBlockStage> parentChain = SWSolver.solve(sb);
 
-//        length = parentChain.size();
-//        for(int i = 0; i < length; i++) {
-//            System.out.println(parentChain.pop());
-//        }
+        int length = parentChain.size();
+        for(int i = 0; i < length; i++) {
+            System.out.println(parentChain.pop());
+        }
     }
 }
