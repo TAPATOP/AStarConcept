@@ -4,6 +4,7 @@ import concept.heuristic.Heuristic;
 import concept.solver.Solver;
 import concept.stage.Stage;
 import concept.state.State;
+import concept.strategies.expander.Expander;
 
 import java.util.*;
 
@@ -12,19 +13,27 @@ public class AStarDefault<
         StageType extends Stage<StateType>,
         ChangeArgType>
         implements Solver<StateType> {
+
     protected StateType goal;
     protected Heuristic<StateType> heuristic;
     protected PriorityQueue<StageType> queue;
+    protected Expander<StateType, StageType, ChangeArgType> expander;
 
     /**
      * @param goal is copied by reference !!
      * @param heuristic is copied by reference !!
      */
-    public AStarDefault(StateType goal, Heuristic<StateType> heuristic) {
+    public AStarDefault(
+            StateType goal,
+            Heuristic<StateType> heuristic,
+            Expander<StateType, StageType, ChangeArgType> expander
+    ) {
         this.goal = goal;
         this.heuristic = heuristic;
+        this.expander = expander;
 
-        // TODO: should find a way to specify the queue and make sure it's valid
+        // TODO: should find a way to specify the queue and make sure it's valid.
+        // Probably through a Strategy
         this.queue = new PriorityQueue<>(Comparator.comparingInt(
                         stage -> stage.getG() + this.heuristic.heuristic(stage.getState(), goal)
                 ));
@@ -56,15 +65,14 @@ public class AStarDefault<
     }
 
     protected void step() {
-        final Stage<StateType> currentStage = queue.poll();
+        final StageType currentStage = queue.poll();
 
         if (currentStage == null) return;
 
-        final State<ChangeArgType> currentState = currentStage.getState();
-        for (State<ChangeArgType> changedState : currentState) {
-            //noinspection unchecked
-            queue.add((StageType) new Stage<StateType>((StateType)changedState, currentStage));
-            if (changedState.equals(goal)) {
+        expander.setStage(currentStage);
+        for (StageType changedStage : expander) {
+            queue.add(changedStage);
+            if (changedStage.getState().equals(goal)) {
                 break;
             }
         }

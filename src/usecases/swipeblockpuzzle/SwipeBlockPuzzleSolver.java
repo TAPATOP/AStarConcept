@@ -4,6 +4,7 @@ import concept.heuristic.Heuristic;
 import concept.implementation.AStarDefault;
 import concept.implementation.AStarImplAlpha;
 import concept.solver.Solver;
+import concept.strategies.expander.Expander;
 
 import java.util.List;
 import java.util.Stack;
@@ -16,7 +17,10 @@ public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
 
     public SwipeBlockPuzzleSolver(SwipeBlock goal) {
         heuristic = new SwipeBlockHeuristic();
-        aStar = new SwipeBlockAStar(goal, heuristic);
+        Expander<SwipeBlock, SwipeBlockStage, String> expander =
+                new Expander<>(SwipeBlock.getPossibleDirections()
+        );
+        aStar = new SwipeBlockAStar(goal, heuristic, expander);
     }
 
     @SuppressWarnings("unchecked")
@@ -27,8 +31,13 @@ public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
 
     static class SwipeBlockAStar extends AStarImplAlpha<SwipeBlock, SwipeBlockStage, String> {
 
-        public SwipeBlockAStar(SwipeBlock goal, Heuristic<SwipeBlock> heuristic) {
-            super(goal, heuristic);
+        public SwipeBlockAStar(
+                SwipeBlock goal,
+                Heuristic<SwipeBlock> heuristic,
+                Expander<SwipeBlock, SwipeBlockStage, String> expander
+
+        ) {
+            super(goal, heuristic, expander);
         }
 
         @Override
@@ -43,7 +52,9 @@ public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
 
             if (currentStage == null) return;
 
-            SwipeBlockExpander swipeBlockExpander = new SwipeBlockExpander(currentStage, SwipeBlock.getPossibleDirections().iterator());
+            SwipeBlockExpander swipeBlockExpander = new SwipeBlockExpander(SwipeBlock.getPossibleDirections());
+            swipeBlockExpander.setStage(currentStage);
+
             for (SwipeBlockStage changedStage : swipeBlockExpander) {
                 if (changedStage == null || visitedStates.contains(changedStage.getState())) {
                     continue;

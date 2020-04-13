@@ -3,6 +3,7 @@ package concept.implementation;
 import concept.heuristic.Heuristic;
 import concept.stage.Stage;
 import concept.state.State;
+import concept.strategies.expander.Expander;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +15,12 @@ public class AStarImplAlpha<
         extends AStarDefault<StateType, StageType, ChangeArgType> {
     protected Set<StateType> visitedStates;
 
-   public AStarImplAlpha(StateType goal, Heuristic<StateType> heuristic) {
-       super(goal, heuristic);
+   public AStarImplAlpha(
+           StateType goal,
+           Heuristic<StateType> heuristic,
+           Expander<StateType, StageType, ChangeArgType> expander
+           ) {
+       super(goal, heuristic, expander);
        visitedStates = new HashSet<>();
    }
 
@@ -31,15 +36,14 @@ public class AStarImplAlpha<
 
         if (currentStage == null) return;
 
-        final State<ChangeArgType> currentState = currentStage.getState();
-        for (State<ChangeArgType> changedState : currentState) {
-            //noinspection unchecked
-            StateType castChangedState = (StateType)changedState;
-            if (visitedStates.contains(castChangedState)) {
+        expander.setStage(currentStage);
+        for (StageType changedStage : expander) {
+            StateType changedState = changedStage.getState();
+            if (visitedStates.contains(changedState)) {
                 continue;
             }
-            visitedStates.add(castChangedState);
-            queue.add((StageType) new Stage<>(castChangedState, currentStage));
+            visitedStates.add(changedState);
+            queue.add(changedStage);
             if (changedState.equals(goal)) {
                 break;
             }

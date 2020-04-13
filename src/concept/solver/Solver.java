@@ -6,6 +6,7 @@ import concept.state.State;
 import java.util.Stack;
 
 /**
+ * TODO: Solver<StateType, ChangeArgType>
  * Should probably be replaced by or complimented with a Factory
  */
 public interface Solver<T extends State> {
