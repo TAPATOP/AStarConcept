@@ -4,34 +4,65 @@ import concept.state.State;
 
 import com.sun.istack.internal.NotNull;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
-public class Stage<T extends State> {
-    protected final int g;
-    protected final T state;
-    protected final Stage<T> previous;
+/**
+ * Basically, State with metadata. That metadata can hold information
+ * about how the inner State has been reached so, when the goalState
+ * does get reached, Stage can provide information about the process.
+ *
+ * Can be used interchangeably with State in some contexts.
+ *
+ * @param <StateType>
+ */
+public class Stage<StateType extends State> {
+    // Named according to the convention usually used when dealing with A*
+    // It hold the number of steps that were performed in order
+    // to reach the inner State
+    final protected int g;
 
-    public Stage(@NotNull T state) {
+    // The inner State of the Stage
+    final protected StateType state;
+
+    // The immediate Stage the current one was reached from
+    final protected Stage<StateType> previous;
+
+    public Stage(@NotNull StateType state) {
         this.state = state;
         previous = null;
         g = 0;
     }
 
-    public Stage(@NotNull T state, @NotNull Stage<T> previous) {
+    public Stage(@NotNull StateType state, @NotNull Stage<StateType> previous) {
         this.state = state;
         this.g = previous.g + 1;
         this.previous = previous;
     }
 
-    public Stack<Stage<T>> getParentChain() {
-        Stack<Stage<T>> parentChain = new Stack<>();
+    /**
+     * A public method intended to find all the Stages that were
+     * visited from a State to the inner State of this Stage. It simply
+     * creates a Stack and passes it to the private method, which actually
+     * does the job.
+     * @return Stack of the visited Stages. The first popped is the starting State,
+     * the last popped is the inner State of this Stage.
+     */
+    public Stack<Stage<StateType>> getParentChain() {
+        Stack<Stage<StateType>> parentChain = new Stack<>();
         return this.getParentChain(parentChain);
     }
 
-    private Stack<Stage<T>> getParentChain(Stack<Stage<T>> parentChain) {
+    /**
+     * Given a Stack, populates it with the different Stages that were explored
+     * while searching for the this Stage. Uses this order of pushing because
+     * this is a tail recursion.
+     *
+     * @param parentChain stack
+     * @return Stack of the visited Stages. The first popped is the starting State,
+     *      * the last popped is the inner State of this Stage.
+     */
+    private Stack<Stage<StateType>> getParentChain(Stack<Stage<StateType>> parentChain) {
         parentChain.push(this);
         if (previous == null) {
             return parentChain;
@@ -39,16 +70,18 @@ public class Stage<T extends State> {
         return previous.getParentChain(parentChain);
     }
 
-    // TODO check is this can be fixed or if it is even needed
-    public boolean equalState(T other) {
-        return state.equals(other);
-    }
-
+    /**
+     * @return the number of steps that have been travelled to get to the
+     * inner State
+     */
     public int getG() {
         return g;
     }
 
-    public T getState() {
+    /**
+     * @return the inner State
+     */
+    public StateType getState() {
         return state;
     }
 

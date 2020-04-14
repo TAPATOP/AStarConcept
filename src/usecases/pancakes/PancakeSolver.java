@@ -5,7 +5,7 @@ import concept.implementation.AStarDefault;
 import concept.implementation.AStarImplAlpha;
 import concept.solver.Solver;
 import concept.stage.Stage;
-import concept.strategies.expander.Expander;
+import concept.strategies.expander.ExpanderStrategy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,10 +27,10 @@ public class PancakeSolver implements Solver<PancakeAbstract> {
         }
 
         // TODO: make this a new class
-        Expander<PancakeAbstract, Stage<PancakeAbstract>, Integer> expander =
-                new Expander<>(possibleCommands);
+        ExpanderStrategy<PancakeAbstract, Stage<PancakeAbstract>, Integer> expander =
+                new ExpanderStrategy<>(possibleCommands);
 
-        aStar = new AStarImplAlpha<>(goal, heuristic, expander);
+        aStar = new AStarImplAlpha<PancakeAbstract, Stage<PancakeAbstract>, Integer>(goal, heuristic, expander);
     }
 
     @SuppressWarnings("unchecked")

@@ -155,33 +155,6 @@ public class SwipeBlock implements State<String> {
     }
 
     @Override
-    public Iterator<State<String>> iterator() {
-
-        return new Iterator<State<String>>() {
-            Set<Coordinates> validCoordinates = new HashSet<>();
-            {
-                for(String direction : possibleDirections) {
-                    Coordinates newCoord = newCoordinates(calculateRelativeCoords(direction));
-                    if (coordsAreValid(newCoord)) {
-                        validCoordinates.add(newCoord);
-                    }
-                }
-            }
-            Iterator<Coordinates> validCoordIterator = validCoordinates.iterator();
-
-            @Override
-            public boolean hasNext() {
-                return validCoordIterator.hasNext();
-            }
-
-            @Override
-            public State<String> next() {
-                return swipeBlock(validCoordIterator.next());
-            }
-        };
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(int[] row : board) {

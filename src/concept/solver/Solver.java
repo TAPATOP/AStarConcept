@@ -8,6 +8,10 @@ import java.util.Stack;
 /**
  * TODO: Solver<StateType, ChangeArgType>
  * Should probably be replaced by or complimented with a Factory
+ *
+ * Interface for anything that can reach a goalState from a currentState.
+ * As it stands, this is not a very proper thing to exist, so I should fix
+ * it.
  */
 public interface Solver<T extends State> {
     /**

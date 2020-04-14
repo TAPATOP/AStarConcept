@@ -27,23 +27,6 @@ abstract public class PancakeAbstract implements State<Integer> {
         return index >= 0 && index < size();
     }
 
-    @Override
-    public Iterator<State<Integer>> iterator() {
-        return new Iterator<State<Integer>>() {
-            private int currentIndex = 1;
-
-            @Override
-            public boolean hasNext() {
-                return currentIndex < size();
-            }
-
-            @Override
-            public PancakeAbstract next() {
-                return flip(currentIndex++);
-            }
-        };
-    }
-
     public int size() {
         return pancakes.length;
     }

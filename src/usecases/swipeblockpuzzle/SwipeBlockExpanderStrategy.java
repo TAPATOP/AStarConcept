@@ -18,12 +18,12 @@ public class SwipeBlockExpanderStrategy
         return new Iterator<SwipeBlockStage>() {
             @Override
             public boolean hasNext() {
-                return currentPossibleChangesIterator.hasNext();
+                return currentPossibleCommandsIterator.hasNext();
             }
 
             @Override
             public SwipeBlockStage next() {
-                String nextDirection = currentPossibleChangesIterator.next();
+                String nextDirection = currentPossibleCommandsIterator.next();
                 SwipeBlock sb;
                 try {
                     sb = currentStage.getState().move(nextDirection);

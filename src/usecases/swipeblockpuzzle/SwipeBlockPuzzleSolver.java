@@ -4,7 +4,7 @@ import concept.heuristic.Heuristic;
 import concept.implementation.AStarDefault;
 import concept.implementation.AStarImplAlpha;
 import concept.solver.Solver;
-import concept.strategies.expander.Expander;
+import concept.strategies.expander.ExpanderStrategy;
 
 import java.util.Stack;
 
@@ -16,8 +16,8 @@ public class SwipeBlockPuzzleSolver implements Solver<SwipeBlock> {
 
     public SwipeBlockPuzzleSolver(SwipeBlock goal) {
         heuristic = new SwipeBlockHeuristic();
-        Expander<SwipeBlock, SwipeBlockStage, String> expander =
-                new SwipeBlockExpander(SwipeBlock.getPossibleDirections()
+        ExpanderStrategy<SwipeBlock, SwipeBlockStage, String> expander =
+                new SwipeBlockExpanderStrategy(SwipeBlock.getPossibleDirections()
         );
         aStar = new AStarImplAlpha<SwipeBlock, SwipeBlockStage, String>(goal, heuristic, expander) {
             @Override
