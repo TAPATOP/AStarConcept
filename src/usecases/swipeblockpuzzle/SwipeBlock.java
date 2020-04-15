@@ -32,19 +32,6 @@ public class SwipeBlock implements State<String> {
         copyBoard(board);
     }
 
-    public SwipeBlock(SwipeBlock otherState) {
-        this.height = otherState.height;
-        this.width = otherState.width;
-        this.board = new int[height][width];
-        copyBoard(otherState.board);
-
-        this.emptySquareCoordinates =
-                new Coordinates(
-                        otherState.emptySquareCoordinates.getY(),
-                        otherState.emptySquareCoordinates.getX()
-                );
-    }
-
     /**
      * Returns a new swipeBlock that is created by swiping the current one
      * using the Coordinates input
@@ -95,7 +82,7 @@ public class SwipeBlock implements State<String> {
     private boolean coordsAreValid(Coordinates coords) {
         int x = coords.getX();
         int y = coords.getY();
-        return !(y < 0 || y >= height || x < 0 || x >= width);
+        return (y >= 0 && y < height) && (x >= 0 && x < width);
     }
 
     @Override

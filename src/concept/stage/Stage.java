@@ -14,6 +14,14 @@ import java.util.Stack;
  *
  * Can be used interchangeably with State in some contexts.
  *
+ * Even though it is tempting to implement it as a child of State,
+ * it is not one in a logical sense. State describes the possible forms of
+ * the model that we are interested in, while Stage is that, but with
+ * additional metadata. State can be used to simply "play" the game that
+ * is modelled through it, while Stage holds unneeded metadata for that
+ * use case.
+ *
+ *
  * @param <StateType>
  */
 public class Stage<StateType extends State> {

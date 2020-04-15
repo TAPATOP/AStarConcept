@@ -93,7 +93,7 @@ public class AStarDefault<
 
     /**
      * Prepares the assisting Data Structures. The default implementation
-     * simply puts the currentState into the PriorityQueue
+     * simply puts the currentStage into the PriorityQueue
      *
      * @param currentState the starting state from which we'll try to find a way to the goal
      */

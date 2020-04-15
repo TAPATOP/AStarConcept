@@ -25,7 +25,6 @@ public class PancakeHeuristic implements Heuristic<PancakeAbstract> {
                 heuristic3++;
             }
         }
-//        System.out.println(current.toString() + ": " + heuristic + ":" + heuristic2 + ":" + heuristic3);
         return heuristic + heuristic2;// + heuristic3;
     }
 }
